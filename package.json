@@ -2,7 +2,7 @@
   "name": "hello-vue3",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --port 8085",
+    "dev": "vite --port 8085 --mode dev",
     "build": "vite build",
     "serve": "vite preview"
   },
