@@ -1,4 +1,4 @@
-import { $get, $post } from './students'
+import { $get, $post } from '../net/fetch'
 export const studentList = () => {
   return $get({
     url: '/student/getInfo'

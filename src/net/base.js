@@ -1,9 +1,9 @@
-import axios from 'axios'
-export default class Base {
+import axios from 'axios';
+class Base {
   constructor (url) {
     this.url = url
     this.instance = axios.create({
-      baseURL: import.meta.env.API,
+      baseURL: import.meta.env.VITE_API,
       timeout: 15000
     })
   }
@@ -14,3 +14,4 @@ export default class Base {
     return this.instance.post(this.url, params)
   }
 }
+export default Base;

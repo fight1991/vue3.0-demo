@@ -36,13 +36,17 @@
     <div></div>
     <div class="table-box">
       <el-table :data="tableData" style="width: 100%">
+        <el-table-column type="index" label="序号" width="50">
+        </el-table-column>
         <el-table-column prop="name" label="姓名" width="180" />
         <el-table-column prop="age" label="年龄" width="180" />
         <el-table-column prop="gender" label="性别" />
         <el-table-column prop="age" label="老师姓名" width="180" />
-        <el-table-column prop="age" label="操作" width="180" slot-scope="scope">
-          <el-button size="mini">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+        <el-table-column prop="age" label="操作" width="180">
+          <template #default="{row}">
+            <el-button size="mini">编辑</el-button>
+            <el-button size="mini" type="danger">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -50,7 +54,8 @@
 </template>
 
 <script setup>
-  import { ref, reactive } from 'vue'
+  import { ref, reactive, onMounted } from 'vue'
+  import { studentList } from '@/api/students'
   const form = reactive({
     name: '',
     age: '',
@@ -60,7 +65,18 @@
   const onSubmit = () => {
     console.log('submit!')
   }
-  const tableData = reactive([{name: 'demp', age: 1, gender: 1, teacherName: '疼'}])
+  let tableData = ref([])
+  // 获取学生列表
+  const getList = () => {
+    studentList()
+      .then(res => {
+        tableData.value = res.data.data
+      })
+      .catch(err => { console.log(err)})
+  }
+  onMounted(() => {
+    getList()
+  })
 </script>
 <style lang="less" scope>
   .box {
