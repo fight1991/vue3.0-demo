@@ -1,6 +1,7 @@
 <script>
-import { ref, reactive, onMounted, toRefs } from 'vue'
+import { ref, reactive, onMounted, toRefs, getCurrentInstance } from 'vue'
 import { studentList, studentAdd } from '@/api/students'
+import { ElMessage } from 'element-plus'
 export default {
   setup(prop, context) {
     const state = reactive({
@@ -25,6 +26,7 @@ export default {
       studentAdd({
         data: state.form
       }).then(() => {
+        ElMessage.success('操作成功!')
         getList()
       })
     }

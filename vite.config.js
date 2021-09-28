@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import Components from 'unplugin-vue-components/vite'
+import ElementPlus from 'unplugin-element-plus/vite' // 自动加载样式
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
@@ -8,6 +9,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
+    ElementPlus(),
     Components({ // ELEMENT+ 按需加载
       resolvers: [ElementPlusResolver()],
     })
