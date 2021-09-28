@@ -1,6 +1,46 @@
+<script>
+import { ref, reactive, onMounted, toRefs } from 'vue'
+import { studentList, studentAdd } from '@/api/students'
+export default {
+  setup(prop, context) {
+    const state = reactive({
+      form: {
+        name: '',
+        age: '',
+        gender: '',
+        teacherName: '',
+      },
+      tableData: []
+    })
+    // 获取学生列表
+    const getList = () => {
+      studentList()
+        .then(res => {
+          state.tableData = res.data.data
+        })
+        .catch(err => { console.log(err)})
+    }
+    // 提交学生信息
+    const onSubmit = () => {
+      studentAdd({
+        data: state.form
+      }).then(() => {
+        getList()
+      })
+    }
+    onMounted(() => {
+      getList()
+    })
+    return {
+      ...toRefs(state),
+      onSubmit
+    }
+  }
+}
+</script>
 <template>
   <div class="box">
-    <el-form ref="form" size="small" :model="form" label-width="100px">
+    <el-form size="small" :model="form" label-width="100px">
       <el-row>
         <el-col :lg="6" :md="8" :sm="8">
           <el-form-item label="姓名">
@@ -16,7 +56,7 @@
           <el-form-item label="性别">
             <el-select v-model="form.gender" style="width:100%">
               <el-option label="男" value="1"></el-option>
-              <el-option label="女 two" value="0"></el-option>
+              <el-option label="女" value="0"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -52,32 +92,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-  import { ref, reactive, onMounted } from 'vue'
-  import { studentList } from '@/api/students'
-  const form = reactive({
-    name: '',
-    age: '',
-    gender: '',
-    teacherName: ''
-  })
-  const onSubmit = () => {
-    console.log('submit!')
-  }
-  let tableData = ref([])
-  // 获取学生列表
-  const getList = () => {
-    studentList()
-      .then(res => {
-        tableData.value = res.data.data
-      })
-      .catch(err => { console.log(err)})
-  }
-  onMounted(() => {
-    getList()
-  })
-</script>
 <style lang="less" scope>
   .box {
     padding: 30px;
